@@ -21,7 +21,7 @@ $(document).ready(function() {
           success: function(response) {
             console.log(response)
             if (response.totalItems === 0) {
-              alert("no result!.. try again")
+              alert("No hay resultados intente de nuevo")
             }
             else {
               $("#title").animate({'margin-top': '5px'}, 1000); 
@@ -30,7 +30,7 @@ $(document).ready(function() {
             }
           },
           error: function () {
-            alert("Something went wrong.. <br>"+"Try again!");
+            alert("Surgio un error.. <br>"+"intente de nuevo!");
           }
         });
       }
@@ -44,20 +44,18 @@ $(document).ready(function() {
         title1 = item.volumeInfo.title;
         author1 = item.volumeInfo.authors;
         bookLink1 = item.volumeInfo.infoLink;
-        bookIsbn = item.volumeInfo.industryIdentifiers[1].identifier
         bookImg1 = (item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.thumbnail : placeHldr ;
 
         item2 = response.items[i+1];
         title2 = item2.volumeInfo.title;
         author2 = item2.volumeInfo.authors;
         bookLink2 = item2.volumeInfo.infoLink;
-        bookIsbn2 = item2.volumeInfo.industryIdentifiers[1].identifier
         bookImg2 = (item2.volumeInfo.imageLinks) ? item2.volumeInfo.imageLinks.thumbnail : placeHldr ;
 
         // in production code, item.text should have the HTML entities escaped.
         outputList.innerHTML += '<div class="row mt-4">' +
-                                formatOutput(bookImg1, title1, author1, bookLink1, bookIsbn) +
-                                formatOutput(bookImg2, title2, author2, bookLink2, bookIsbn2) +
+                                formatOutput(bookImg1, title1, author1, bookLink1) +
+                                formatOutput(bookImg2, title2, author2, bookLink2) +
                                 '</div>';
 
         console.log(outputList);
@@ -66,12 +64,9 @@ $(document).ready(function() {
 
    /*
    * card element formatter using es6 backticks and templates (indivial card)
-   * @param bookImg title author publisher bookLink
-   * @return htmlCard
    */
-   function formatOutput(bookImg, title, author,  bookLink, bookIsbn) {
-     // console.log(title + ""+ author +" "+ publisher +" "+ bookLink+" "+ bookImg)
-     var viewUrl = 'book.html?isbn='+bookIsbn; //constructing link for bookviewer
+   function formatOutput(bookImg, title, author,  bookLink) {
+    
      var htmlCard = `<div class="col-lg-6">
        <div class="card" style="">
          <div class="row no-gutters">
@@ -82,7 +77,7 @@ $(document).ready(function() {
              <div class="card-body">
                <h5 class="card-title">${title}</h5>
                <p class="card-text">Author: ${author}</p>
-               <a target="_blank" href="${viewUrl}" class="btn btn-secondary">Read Book</a>
+               <a target="_blank" href="${bookLink}" class="btn btn-secondary">Comprar libro</a>
              </div>
            </div>
          </div>
@@ -93,7 +88,7 @@ $(document).ready(function() {
 
    //handling error for empty search box
    function displayError() {
-     alert("search term can not be empty!")
+     alert("El campo de la busqueda no puede estar vacio")
    }
 
 });
